@@ -5,18 +5,19 @@ macro "ParticleArea" {
 inputFolder=getDirectory("Choose input folder");
 outputFolder=getDirectory("Choose output folder for the results");
 
-Dialog.create("Watershed");
+Dialog.create("Options");
+Dialog.addNumber("Distance in pixels", 1);
 Dialog.addCheckbox("Activate Watershed", true);
 Dialog.show();
+scaleSet = Dialog.getNumber(); 
 watershed = Dialog.getCheckbox();
-
 //Puts the name of the files in a list
 list=getFileList(inputFolder);
 
 //In batch mode the windows are not shown so it is faster.
 setBatchMode(true);
 
-run("Set Measurements...", "area redirect=None decimal=3");
+run("Set Measurements...", "area perimeter fit feret's redirect=None decimal=3");
 
 for(i=0; i<list.length; i++) {
  //Open the images
@@ -24,7 +25,7 @@ for(i=0; i<list.length; i++) {
  if(endsWith(loc, ".jpg")) open(loc);
   print(loc); //I don't know why but it doesn't work without printing the value of loc
  
- run("Set Scale...", "distance=2.85 known=1 unit=µm");
+ run("Set Scale...", "distance="+ scaleSet+ " known=1");
  
  //Processes of the image to measure the area of each particle and add an overlay
  if(nImages>=1) {
@@ -32,7 +33,7 @@ for(i=0; i<list.length; i++) {
   //The following two lines removes the file extension
   fileExtension=lastIndexOf(outputPath,"."); 
   if(fileExtension!=-1) outputPath=substring(outputPath,0,fileExtension);
-  if(watershed!=false) outputPath=outputPath+"_ws";
+  if(watershed!=false) outputPath=outputPath+"_ws"; //add _ws to the file name if whatershed is choosen
   run("Duplicate...", " ");
   //run("8-bit"); //Convert to black and white
   run("RGB Stack"); //
@@ -49,7 +50,7 @@ for(i=0; i<list.length; i++) {
   selectWindow(list[i]);
   roiManager("Show All without labels"); //transfer the label from the bw image to color image
   roiManager("Set Color", "ff5def"); 
-  roiManager("Set Line Width", 3);
+  roiManager("Set Line Width", 2);
   run("Flatten");
   saveAs("Jpeg", outputPath+ "_overlay.jpg"); 
   close(); 
