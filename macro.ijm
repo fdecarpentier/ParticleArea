@@ -32,6 +32,7 @@ for(i=0; i<list.length; i++) {
   //The following two lines removes the file extension
   fileExtension=lastIndexOf(outputPath,"."); 
   if(fileExtension!=-1) outputPath=substring(outputPath,0,fileExtension);
+  if(watershed!=false) outputPath=outputPath+"_ws";
   run("Duplicate...", " ");
   //run("8-bit"); //Convert to black and white
   run("RGB Stack"); //
@@ -50,7 +51,7 @@ for(i=0; i<list.length; i++) {
   roiManager("Set Color", "ff5def"); 
   roiManager("Set Line Width", 3);
   run("Flatten");
-  saveAs("Jpeg", outputPath+"_overlay.jpg");
+  saveAs("Jpeg", outputPath+ "_overlay.jpg"); 
   close(); 
   selectWindow("Results");
   saveAs("Measurements", outputPath+"_results.csv");
