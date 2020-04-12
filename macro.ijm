@@ -7,9 +7,11 @@ outputFolder=getDirectory("Choose output folder for the results");
 
 Dialog.create("Options");
 Dialog.addNumber("Distance in pixels", 1);
+Dialog.addNumber("Know distance", 1);
 Dialog.addCheckbox("Activate Watershed", true);
 Dialog.show();
-scaleSet = Dialog.getNumber(); 
+disPix = Dialog.getNumber();
+disKnown = Dialog.getNumber();  
 watershed = Dialog.getCheckbox();
 //Puts the name of the files in a list
 list=getFileList(inputFolder);
@@ -25,7 +27,7 @@ for(i=0; i<list.length; i++) {
  if(endsWith(loc, ".jpg")) open(loc);
   print(loc); //I don't know why but it doesn't work without printing the value of loc
  
- run("Set Scale...", "distance="+ scaleSet+ " known=1");
+ run("Set Scale...", "distance="+ disPix+ " known="+ disKnown);
  
  //Processes of the image to measure the area of each particle and add an overlay
  if(nImages>=1) {
