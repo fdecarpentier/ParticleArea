@@ -1,12 +1,14 @@
 //Adapted from Will Armour https://willarmour.science/how-to-automate-image-particle-analysis-by-creating-a-macro-in-imagej/
-//Run Help › Update... and choose Manage update sites. 
-//Activate the BAR checkbox in the alphabetically-sorted list of update sites. 
-//Press Close, then Apply changes. Restart ImageJ. 
 
 macro "ParticleArea" {
 //Allows the user to choose the folder containing the images and the folder for the results 
 inputFolder=getDirectory("Choose input folder");
 outputFolder=getDirectory("Choose output folder for the results");
+
+Dialog.create("Watershed");
+Dialog.addCheckbox("Activate Watershed", true);
+Dialog.show();
+watershed = Dialog.getCheckbox();
 
 //Puts the name of the files in a list
 list=getFileList(inputFolder);
@@ -39,6 +41,7 @@ for(i=0; i<list.length; i++) {
   setOption("BlackBackground", false);
   run("Convert to Mask");
   run("Close");
+  if(watershed!=false) run("Watershed");  
   run("Fill Holes"); 
   run("Analyze Particles...","size=0-Infinity display clear add");
   close();
@@ -47,15 +50,14 @@ for(i=0; i<list.length; i++) {
   roiManager("Set Color", "ff5def"); 
   roiManager("Set Line Width", 3);
   run("Flatten");
-  saveAs("Jpeg", outputPath+"overlay.jpg");
+  saveAs("Jpeg", outputPath+"_overlay.jpg");
   close(); 
   selectWindow("Results");
-  saveAs("Measurements", outputPath+".csv");
+  saveAs("Measurements", outputPath+"_results.csv");
   run("Close"); //closes Results window
   close(); //closes the current image
   }
  showProgress(i, list.length);  //Shows a progress bar  
 }
-print("Measurements Complete"); 
 setBatchMode(false);
 }
