@@ -3,7 +3,7 @@
 //Activate the BAR checkbox in the alphabetically-sorted list of update sites. 
 //Press Close, then Apply changes. Restart ImageJ. 
 
-macro "armour.v4" {
+macro "ParticleArea" {
 //Allows the user to choose the folder containing the images and the folder for the results 
 inputFolder=getDirectory("Choose input folder");
 outputFolder=getDirectory("Choose output folder for the results");
@@ -35,19 +35,19 @@ for(i=0; i<list.length; i++) {
   run("RGB Stack"); //
   run("Slice Remover", "first=1 last=2 increment=1"); //Select de desired channel, for R: 2;3;1 / G: 1;3;2 /B: 1;2;1
   run("Gaussian Blur...", "sigma=1"); //Blur the cells to be sure to select the objects and not the sub-objects
-  setAutoThreshold("Defaut");
+  setAutoThreshold("Default");
   setOption("BlackBackground", false);
   run("Convert to Mask");
   run("Close");
   run("Fill Holes"); 
-  run("Analyze Particles...","size=20-Infinity display clear add");
+  run("Analyze Particles...","size=0-Infinity display clear add");
   close();
   selectWindow(list[i]);
   roiManager("Show All without labels"); //transfer the label from the bw image to color image
   roiManager("Set Color", "ff5def"); 
   roiManager("Set Line Width", 3);
   run("Flatten");
-  saveAs("Jpeg", outputPath+".jpg");
+  saveAs("Jpeg", outputPath+"overlay.jpg");
   close(); 
   selectWindow("Results");
   saveAs("Measurements", outputPath+".csv");
