@@ -12,13 +12,17 @@ Dialog.show();
 disPix = Dialog.getNumber();
 disKnown = Dialog.getNumber();  
 watershed = Dialog.getCheckbox();
+
+watershedLabel = ""; 
+if(watershed!=false) watershedLabel="_ws";
 //Puts the name of the files in a list
 list=getFileList(inputFolder);
 
 //In batch mode the windows are not shown so it is faster.
 setBatchMode(true);
 
-run("Set Measurements...", "area perimeter fit feret's redirect=None decimal=3");
+run("Clear Results");
+run("Set Measurements...", "area redirect=None decimal=3");
 
 for(i=0; i<list.length; i++) {
 	//Open the images
@@ -34,32 +38,35 @@ for(i=0; i<list.length; i++) {
 		//The following two lines removes the file extension
 		fileExtension=lastIndexOf(outputPath,"."); 
 		if(fileExtension!=-1) outputPath=substring(outputPath,0,fileExtension);
-		if(watershed!=false) outputPath=outputPath+"_ws"; //add _ws to the file name if whatershed is choosen
+		currentNResults = nResults;
 		run("Duplicate...", " ");
 		//run("8-bit"); //Convert to black and white
 		run("RGB Stack"); //
 		run("Slice Remover", "first=1 last=2 increment=1"); //Select de desired channel, for R: 2;3;1 / G: 1;3;2 /B: 1;2;1
-		run("Gaussian Blur...", "sigma=1"); //Blur the cells to be sure to select the objects and not the sub-objects
+		run("Gaussian Blur...", "sigma=1"); //Blur the particles to be sure to select the objects and not the sub-objects
 		setAutoThreshold("Default");
-		setOption("BlackBackground", false);
 		run("Convert to Mask");
 		run("Close");
 		if(watershed!=false) run("Watershed");  
 		run("Fill Holes"); 
-		run("Analyze Particles...","size=0-Infinity display clear add");
-		close();
+		run("Analyze Particles...","size=0-Infinity add display");
+		for (row = currentNResults; row < nResults; row++) //This add the file name in a row 
+		{
+			setResult("Label", row, list[i]);
+		}
 		selectWindow(list[i]);
 		roiManager("Show All without labels"); //transfer the label from the bw image to color image
 		roiManager("Set Color", "ff5def"); 
 		roiManager("Set Line Width", 2);
 		run("Flatten");
-		saveAs("Jpeg", outputPath+ "_overlay.jpg"); 
-		close(); 
-		selectWindow("Results");
-		saveAs("Measurements", outputPath+"_results.csv");
-		run("Close"); //closes Results window
-		close(); //closes the current image
+		roiManager("Delete");
+		saveAs("Jpeg", outputPath+ watershedLabel+ ".jpg");
+		close("*");
 	}
 	showProgress(i, list.length);  //Shows a progress bar  
 }
+setOption("ShowRowNumbers", false); 
+saveAs("results", outputFolder+ "results"+ watershedLabel+ ".csv"); 
+selectWindow("Results");
+run("Close"); 
 setBatchMode(false);
