@@ -22,7 +22,7 @@ list=getFileList(inputFolder);
 setBatchMode(true);
 
 run("Clear Results");
-run("Set Measurements...", "area redirect=None decimal=3");
+run("Set Measurements...", "area mean perimeter shape limit redirect=None decimal=4");
 
 for(i=0; i<list.length; i++) {
 	//Open the images
