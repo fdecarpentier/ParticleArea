@@ -1,11 +1,14 @@
 # ParticleArea
 This macro allows batch processing of images to get the particles area and add an overlay on the images. 
 
+## Original
+![original](./input/7.jpg)
+
 ## Watershed
-![Example screenshot](./output/7_ws.jpg)
+![wathershed](./output/7_ws.jpg)
 
 ## No Watershed
-![Example screenshot](./output/7.jpg)
+![non watershed](./output/7.jpg)
 
-## Table
+## Results Table
 Results are tidy! 
