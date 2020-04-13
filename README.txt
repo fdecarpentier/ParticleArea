@@ -1,1 +1,0 @@
-This macro allows batch processing of images to get the particles area and add an overlay on the images. 
