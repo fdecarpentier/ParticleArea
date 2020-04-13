@@ -5,7 +5,7 @@ This macro allows batch processing of images to get the particles area and add a
 ![Example screenshot](./output/7_ws.jpg)
 
 ## No Watershed
-![Example screenshot](./output/7_ws.jpg)
+![Example screenshot](./output/7.jpg)
 
 ## Table
 Results are tidy! 
