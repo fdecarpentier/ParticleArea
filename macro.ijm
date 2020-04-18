@@ -1,4 +1,5 @@
-//Adapted from Will Armour https://willarmour.science/how-to-automate-image-particle-analysis-by-creating-a-macro-in-imagej/
+//Macro by Félix de Carpentier, 2020, CNRS / Sorbonne University / Paris-Saclay University, France
+//Inspired by Will Armour, 2018 (https://willarmour.science/how-to-automate-image-particle-analysis-by-creating-a-macro-in-imagej/)
 
 //Allows the user to choose the folder containing the images and the folder for the results 
 inputFolder=getDirectory("Choose input folder");
