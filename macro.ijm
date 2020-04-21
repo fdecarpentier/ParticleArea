@@ -57,7 +57,7 @@ for(i=0; i<list.length; i++) {
 		}
 		selectWindow(list[i]);
 		roiManager("Show All without labels"); //transfer the label from the bw image to color image
-		roiManager("Set Color", "ff5def"); 
+		roiManager("Set Color", "red"); 
 		roiManager("Set Line Width", 2);
 		run("Flatten");
 		roiManager("Delete");
