@@ -43,7 +43,9 @@ for(i=0; i<list.length; i++) {
 		run("Duplicate...", " ");
 		//run("8-bit"); //Convert to black and white
 		run("RGB Stack"); //
-		run("Slice Remover", "first=1 last=2 increment=1"); //Select de desired channel, for R: 2;3;1 / G: 1;3;2 /B: 1;2;1
+		run("Delete Slice");
+		run("Delete Slice");
+		//run("Slice Remover", "first=1 last=2 increment=1"); //Select de desired channel, for R: 2;3;1 / G: 1;3;2 /B: 1;2;1
 		run("Gaussian Blur...", "sigma=1"); //Blur the particles to be sure to select the objects and not the sub-objects
 		setAutoThreshold("Default");
 		run("Convert to Mask");
