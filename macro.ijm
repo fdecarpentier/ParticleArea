@@ -21,7 +21,7 @@ list=getFileList(inputFolder);
 
 //In batch mode the windows are not shown so it is faster.
 setBatchMode(true);
-run("Set Measurements...", "area mean perimeter shape limit redirect=None decimal=9");
+run("Set Measurements...", "area mean perimeter shape limit redirect=None decimal=3");
 run("Clear Results");
 
 for(i=0; i<list.length; i++) {
@@ -30,6 +30,7 @@ for(i=0; i<list.length; i++) {
 	//if(endsWith(loc, ".jpg")) 
 		open(loc);
 	print(loc); //I don't know why but it doesn't work without printing the value of loc
+	run("Set Scale...", "distance="+disPix+" known="+disKnown+" unit=µm");
 
 	//Processes of the image to measure the area of each particle and add an overlay
 	if(nImages>=1) {
@@ -50,7 +51,7 @@ for(i=0; i<list.length; i++) {
 		run("Close");
 		if(watershed!=false) run("Watershed");  
 		run("Fill Holes"); 
-		run("Set Scale...", "distance="+ disPix+ " known="+ disKnown);
+		//run("Set Scale...", "distance="+disPix+ " known="+disKnown);
 		run("Analyze Particles...","size=0-Infinity add display");
 		for (row = currentNResults; row < nResults; row++) //This add the file name in a row 
 		{
@@ -63,7 +64,7 @@ for(i=0; i<list.length; i++) {
 		run("Flatten");
 		roiManager("Delete");
 		saveAs("Jpeg", outputPath+ watershedLabel+ ".jpg");
-		//close("*");
+		close("*");
 	}
 	showProgress(i, list.length);  //Shows a progress bar  
 }
