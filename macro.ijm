@@ -51,7 +51,6 @@ for(i=0; i<list.length; i++) {
 		run("Close");
 		if(watershed!=false) run("Watershed");  
 		run("Fill Holes"); 
-		//run("Set Scale...", "distance="+disPix+ " known="+disKnown);
 		run("Analyze Particles...","size=0-Infinity add display");
 		for (row = currentNResults; row < nResults; row++) //This add the file name in a row 
 		{
