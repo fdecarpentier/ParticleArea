@@ -21,7 +21,7 @@ list=getFileList(inputFolder);
 
 //In batch mode the windows are not shown so it is faster.
 setBatchMode(true);
-run("Set Measurements...", "area mean perimeter shape limit redirect=None decimal=3");
+run("Set Measurements...", "area mean perimeter shape limit redirect=None decimal=4");
 run("Clear Results");
 
 for(i=0; i<list.length; i++) {
