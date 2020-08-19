@@ -20,7 +20,7 @@ if(watershed!=false) watershedLabel="_ws";
 list=getFileList(inputFolder);
 
 //In batch mode the windows are not shown so it is faster.
-setBatchMode(true);
+setBatchMode(false);
 run("Set Measurements...", "area mean perimeter shape limit redirect=None decimal=4");
 run("Clear Results");
 
@@ -40,16 +40,20 @@ for(i=0; i<list.length; i++) {
 		if(fileExtension!=-1) outputPath=substring(outputPath,0,fileExtension);
 		currentNResults = nResults;
 		run("Duplicate...", " ");
-		//run("8-bit"); //Convert to black and white
-		run("RGB Stack");
-		run("Delete Slice");
-		run("Delete Slice");
-		//run("Slice Remover", "first=2 last=3 increment=1"); //Select de desired channel, for R: 2;3;1 / G: 1;3;2 /B: 1;2;1
+		run("8-bit"); //Convert to black and white
+		//run("RGB Stack");
+		//run("Delete Slice");
+		//run("Delete Slice");
+		//run("Slice Remover", "first=2 last=3 increment=1"); //Select the desired channel, for R: 2;3;1 / G: 1;3;2 /B: 1;2;1
 		run("Gaussian Blur...", "sigma=1"); //Blur the particles to be sure to select the objects and not the sub-objects
-		setAutoThreshold("Default");
+		//setAutoThreshold("Default");
+		run("Threshold..."); 
+		waitForUser("Adjust Threshold", "If necessary, use the \"Threshold\" tool to\nadjust the threshold, then click \"OK\".");
 		run("Convert to Mask");
-		run("Close");
-		if(watershed!=false) run("Watershed");  
+		getThreshold(lower, upper);
+		if (lower==-1) exit("Threshold was not set");
+		//run("Close");
+		if(watershed!=false) run("Watershed"); 
 		run("Fill Holes"); 
 		run("Analyze Particles...","size=0-Infinity add display");
 		for (row = currentNResults; row < nResults; row++) //This add the file name in a row 
