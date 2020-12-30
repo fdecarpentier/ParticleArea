@@ -6,7 +6,7 @@ inputFolder=getDirectory("Choose input folder");
 outputFolder=getDirectory("Choose output folder for the results");
 
 Dialog.create("Options");
-Dialog.addNumber("Distance in pixels", 1);
+Dialog.addNumber("Distance in pixels", 2.85);
 Dialog.addNumber("Known distance", 1);
 Dialog.addCheckbox("Activate Watershed", false);
 Dialog.show();
@@ -42,15 +42,15 @@ for(i=0; i<list.length; i++) {
 		run("Duplicate...", " ");
 		//run("8-bit"); //Convert to black and white
 		run("RGB Stack");
-		run("Delete Slice");
-		run("Delete Slice");
-		//run("Slice Remover", "first=2 last=3 increment=1"); //Select de desired channel, for R: 2;3;1 / G: 1;3;2 /B: 1;2;1
-		run("Gaussian Blur...", "sigma=1"); //Blur the particles to be sure to select the objects and not the sub-objects
+		//run("Delete Slice");
+		//run("Delete Slice");
+		run("Slice Remover", "first=1 last=2 increment=1"); //Select de desired channel, for R: 2;3;1 / G: 1;3;2 /B: 1;2;1
+		run("Gaussian Blur...", "sigma=2"); //Blur the particles to be sure to select the objects and not the sub-objects
 		setAutoThreshold("Default");
 		run("Convert to Mask");
 		run("Close");
 		if(watershed!=false) run("Watershed");  
-		run("Fill Holes"); 
+		run("Fill Holes");
 		run("Analyze Particles...","size=0-Infinity add display");
 		for (row = currentNResults; row < nResults; row++) //This add the file name in a row 
 		{
